@@ -6,15 +6,8 @@ scalaVersion := "2.11.8"
 
 resolvers += "mvnrepository" at "http://mvnrepository.com/"
 
-scalacOptions += "-target:jvm-1.7"
-javacOptions ++= Seq("-source", "1.7", "-target", "1.7")
-
-//libraryDependencies ++= Seq(
-//  ("org.apache.spark" %% "spark-sql" % "2.1.1")
-//    .exclude("commons-beanutils", "commons-beanutils")
-//    .exclude("commons-beanutils", "commons-beanutils-core")
-//    .exclude("commons-collections", "commons-collections")
-//)
+scalacOptions += "-target:jvm-1.8"
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 libraryDependencies ++= Seq(
   ("org.apache.spark" %% "spark-sql" % "2.1.1")
@@ -22,7 +15,6 @@ libraryDependencies ++= Seq(
     .exclude("commons-beanutils", "commons-beanutils-core")
     .exclude("commons-collections", "commons-collections")
 )
-
 libraryDependencies += "org.apache.kudu" % "kudu-client" % "1.6.0"
 libraryDependencies += "org.apache.kudu" %% "kudu-spark2" % "1.6.0"
 
