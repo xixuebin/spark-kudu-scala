@@ -1,3 +1,4 @@
+一个单独的assembly包,用于使用本地模式的spark导入数据到kudu中.
 
 参考:
 https://stackoverflow.com/questions/13116075/unresolved-dependency-org-scala-tools-sbinarysbinary-2-9-00-4-0-not-found
