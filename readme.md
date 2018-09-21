@@ -6,3 +6,6 @@ https://blog.csdn.net/silentwolfyh/article/details/80820511
 http://mvnrepository.com/artifact/org.apache.spark/spark-core_2.11/2.1.1
 https://qiita.com/AKB428/items/fb019a2061c664d0e660
 http://queirozf.com/entries/creating-scala-fat-jars-for-spark-on-sbt-with-sbt-assembly-plugin
+
+分区
+https://stackoverflow.com/questions/30995699/how-to-define-partitioning-of-dataframe

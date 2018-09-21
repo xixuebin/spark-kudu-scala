@@ -5,7 +5,7 @@ import java.net.InetAddress
 
 import com.kevin.scala.ImportExportKudu.ArgsCls
 import org.apache.kudu.client.KuduClient
-import org.apache.spark.sql.{SparkSession, functions}
+import org.apache.spark.sql.{Column, SparkSession, functions}
 import org.slf4j.{Logger, LoggerFactory}
 import org.apache.kudu.spark.kudu._
 
@@ -103,13 +103,14 @@ object ImportExportFiles {
               .csv(args.path)
             kc.upsertRows(df, args.tableName)
           case "parquet" =>
-            var df = sqlContext.read.parquet(args.path)
+            var df = sqlContext.read.parquet(args.path.split(","):_*)
             System.out.println(df.count())
             System.out.println(df.schema.simpleString)
             if(df.schema.fieldNames contains "time_stamp"){
               df = df.withColumn("part", functions.date_format(
                 functions.col("time_stamp"), "yyyy-MM-dd"))
             }
+            df = df.repartition(new Column("state"))
             kc.upsertRows(df, args.tableName)
           case "avro" =>
             val df = sqlContext.read
@@ -156,8 +157,8 @@ object ImportExportFiles {
       .config("spark.driver.memory", "1g")
       .config("spark.executor.memory", "2g")
       .config("HADOOP_USER_NAME", "hdfs")
-      .config("spark.sql.shuffle.partitions", "40")
-      .config("spark.default.parallelism", "120")
+      .config("spark.sql.shuffle.partitions", "30")
+      .config("spark.default.parallelism", "20")
       .master("local[*]")
       .getOrCreate()
     testMain(args, sparkSession)
