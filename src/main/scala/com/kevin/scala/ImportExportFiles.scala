@@ -104,9 +104,12 @@ object ImportExportFiles {
             kc.upsertRows(df, args.tableName)
           case "parquet" =>
             var df = sqlContext.read.parquet(args.path)
-            df = df.withColumn("part", functions.date_format(
-              functions.col("time_stamp"), "yyyy-MM-dd"))
             System.out.println(df.count())
+            System.out.println(df.schema.simpleString)
+            if(df.schema.fieldNames contains "time_stamp"){
+              df = df.withColumn("part", functions.date_format(
+                functions.col("time_stamp"), "yyyy-MM-dd"))
+            }
             kc.upsertRows(df, args.tableName)
           case "avro" =>
             val df = sqlContext.read
@@ -153,8 +156,8 @@ object ImportExportFiles {
       .config("spark.driver.memory", "1g")
       .config("spark.executor.memory", "2g")
       .config("HADOOP_USER_NAME", "hdfs")
-      .config("spark.sql.shuffle.partitions", "20")
-      .config("spark.default.parallelism", "60")
+      .config("spark.sql.shuffle.partitions", "40")
+      .config("spark.default.parallelism", "120")
       .master("local[*]")
       .getOrCreate()
     testMain(args, sparkSession)
